@@ -7,9 +7,9 @@ from config import auth0_config
 
 
 # Auth0 Config
-AUTH0_DOMAIN = "kuberx.auth0.com"
-ALGORITHMS = ["RS256"]
-API_AUDIENCE = "caps_id"
+AUTH0_DOMAIN = auth0_config["AUTH0_DOMAIN"]
+ALGORITHMS = auth0_config["ALGORITHMS"]
+API_AUDIENCE = auth0_config["API_AUDIENCE"]
 
 
 class AuthError(Exception):

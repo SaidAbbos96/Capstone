@@ -11,8 +11,3 @@ auth0_config = {
     "API_AUDIENCE": "caps_id",
 }
 
-bearer_tokens = {
-    "casting_assistant": "Bearer ",
-    "casting_director": "Bearer ",
-    "executive_producer": "Bearer ",
-}
