@@ -1,31 +1,44 @@
-# imports
-from sqlalchemy import Column, String, create_engine, Integer, DateTime, Numeric, ForeignKey
+import os
+from sqlalchemy import Column, String, Integer, create_engine, Date
 from flask_sqlalchemy import SQLAlchemy
 import json
-import os
+from datetime import date
 
 database_path = os.environ['DATABASE_URL']
-#local db url set DATABASE_URL=postgresql://postgres:1111@localhost:5432/capstone
+
+
 db = SQLAlchemy()
 
-# setup db
 def setup_db(app, database_path=database_path):
+
     app.config["SQLALCHEMY_DATABASE_URI"] = database_path
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     db.app = app
     db.init_app(app)
-    db.create_all()
+    
+    db_insert_records()
 
-# table restaurants
-class Restaurant(db.Model):
-    __tablename__ = 'restaurants'
+
+def db_insert_records():
+
+    db.create_all()
+    new_actor = Actor(name='Gisele Budchen', age=40, gender='Female')
+    new_movie = Movie(title="Lessons", release_date=date.today())
+
+    new_actor.insert()
+    new_movie.insert()
+
+
+class Movie(db.Model):
+    __tablename__ = 'movies'
 
     id = Column(Integer, primary_key=True)
-    name = Column(String)
-    address = Column(String)
-    owner_id = Column(String, nullable=False)  # owner_id will be retrieved from token to see which user owns the restaurant
-    reservation_rel = db.relationship('Reservations', backref='restaurnt_res', lazy=True)
-    reservation_rel = db.relationship('MenuItems', backref='restaurnt_menu_item', lazy=True)  
+    title = Column(String, nullable=False)
+    release_date = Column(Date, nullable=False)
+
+    def __init__(self, title, release_date):
+        self.title = title
+        self.release_date = release_date
 
     def insert(self):
         db.session.add(self)
@@ -40,21 +53,29 @@ class Restaurant(db.Model):
 
     def format(self):
         return {
-             "name": self.name
-            ,"address": self.address
+            'id': self.id,
+            'title': self.title,
+            'release_date': self.release_date,
         }
 
 
-# Table to store information about the reservations at restaurants
-class Reservations(db.Model):
-    __tablename__ = 'reservations'
+'''
+Actor
+'''
+
+
+class Actor(db.Model):
+    __tablename__ = 'actors'
 
     id = Column(Integer, primary_key=True)
-    time_of_res = Column(DateTime)
-    num_of_people = Column(Integer)
-    name_for_res = Column(String) 
-    customer_id = Column(String) # customer_id will be retrieved from token
-    restaurant_id = Column(Integer, ForeignKey('restaurants.id'))
+    name = Column(String, nullable=False)
+    age = Column(Integer)
+    gender = Column(String)
+
+    def __init__(self, name, age, gender):
+        self.name = name
+        self.age = age
+        self.gender = gender
 
     def insert(self):
         db.session.add(self)
@@ -69,38 +90,8 @@ class Reservations(db.Model):
 
     def format(self):
         return {
-             "time_of_res": self.time_of_res
-            ,"num_of_people": self.num_of_people
-            ,"restaurant_name": self.restaurnt_res.name
-        } 
-
-
-
-# Table to store information about the Menu Items at restaurants
-class MenuItems(db.Model):
-    __tablename__ = 'menu_items'
-
-    id = Column(Integer, primary_key=True)
-    name = Column(String)
-    description = Column(String)
-    price = Column(Numeric)
-    restaurant_id = Column(Integer, ForeignKey('restaurants.id'))
-
-    def insert(self):
-        db.session.add(self)
-        db.session.commit()
-
-    def update(self):
-        db.session.commit()
-
-    def delete(self):
-        db.session.delete(self)
-        db.session.commit()
-    
-    def format(self):
-        return {
-             "name": self.name
-            ,"description": self.description
-            ,"price": str(self.price)
-            ,"restaurant_name": self.restaurnt_menu_item.name
+            'id': self.id,
+            'name': self.name,
+            'age': self.age,
+            'gender': self.gender
         }
