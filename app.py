@@ -3,7 +3,7 @@ from flask import Flask, request, abort, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from auth import AuthError, requires_auth
-from models import setup_db, db_insert_records, Actor, Movie
+from models import setup_db,  Actor, Movie
 
 QUESTIONS_PER_PAGE = 10
 

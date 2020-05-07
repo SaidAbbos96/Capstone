@@ -15,18 +15,7 @@ def setup_db(app, database_path=database_path):
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     db.app = app
     db.init_app(app)
-    
-    db_insert_records()
-
-
-def db_insert_records():
-
     db.create_all()
-    new_actor = Actor(name='Gisele Budchen', age=40, gender='Female')
-    new_movie = Movie(title="Lessons", release_date=date.today())
-
-    new_actor.insert()
-    new_movie.insert()
 
 
 class Movie(db.Model):
@@ -95,3 +84,4 @@ class Actor(db.Model):
             'age': self.age,
             'gender': self.gender
         }
+
