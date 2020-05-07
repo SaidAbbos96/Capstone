@@ -1,3 +1,4 @@
+###Capstone project
 "Casting Agency"
 Two sets of specifications have been created for this project. The first set is general and not domain specified. This is for students who want to practice and have their own topic they want to use as the content for the project. Students who may not have their own idea can use the Casting Agency specifications to have slightly more structure when you get started.
 
