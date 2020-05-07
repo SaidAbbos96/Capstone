@@ -1,1 +1,15 @@
 https://sa-capstone.herokuapp.com/ | https://git.heroku.com/sa-capstone.git
+
+
+User data for this app.
+Casting assistant 
+login: assistant@testmail.com
+password: assistant@testmail.com1
+
+Casting director
+login: diresctor@testmail.com
+password: diresctor@testmail.com1
+
+Casting producer
+login: producer@testmail.com
+password: producer@testmail.com1
